@@ -4,13 +4,14 @@ import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 import Loader from "../Loader";
 
 const Character = ({ isMobile }) => {
-  const model = useGLTF("./ace/model.gltf");
+  // Load the model from /public for deployment compatibility
+  const model = useGLTF("/ace/model.gltf");
   const ref = useRef();
 
-  // Rotate the character in place
+  // Rotate the character continuously
   useFrame((state, delta) => {
     if (ref.current) {
-      ref.current.rotation.y += delta * 0.5; // spin speed
+      ref.current.rotation.y += delta * 0.5; // rotation speed
     }
   });
 
@@ -23,35 +24,27 @@ const Character = ({ isMobile }) => {
     >
       <primitive object={model.scene} />
 
-      {/* Point light above the head */}
+      {/* Lights adjusted for mobile */}
       <pointLight
         color="white"
-        intensity={10}
-        position={[0, 3, 0]} // x, y, z relative to the model
+        intensity={isMobile ? 2 : 10} // reduced intensity on mobile
+        position={[0, 3, 0]}
       />
-
-      {/* Front light shining at the model */}
       <pointLight
         color="white"
-        intensity={100}
-        position={[0, 1, 5]} // x, y, z relative to model
+        intensity={isMobile ? 2 : 10}
+        position={[0, 1, 5]}
       />
-
-
-      {/* Rim light behind the character */}
       <pointLight
         color="#ff00ff"
-        intensity={10}
+        intensity={isMobile ? 1 : 10}
         position={[0, 1, -5]}
       />
-
-      {/* Optional: subtle fill light */}
       <pointLight
         color="#00ffff"
-        intensity={10}
+        intensity={isMobile ? 1 : 10}
         position={[-2, 1, 2]}
       />
-
     </group>
   );
 };
@@ -68,37 +61,42 @@ const CharacterCanvas = () => {
   }, []);
 
   return (
-    <Canvas
-      shadows
-      frameloop="demand"
-      gl={{ preserveDrawingBuffer: true }}
-      camera={{ position: [0, 1, 5], fov: 25 }}
+    <div
+      className="canvas-container"
+      style={{
+        width: "100%",
+        height: "100vh", // ensures full viewport height on mobile
+        overflow: "hidden",
+      }}
     >
-      <Suspense fallback={<Loader />}>
-        <OrbitControls
-          enableZoom={false} // user can orbit around the character
-          maxPolarAngle={Math.PI / 2}
-          minPolarAngle={0}
-          autoRotate // ✅ camera will orbit automatically 
-          autoRotateSpeed={2}
-        />
-
-        <hemisphereLight intensity={0.15} groundColor="black" />
-        <pointLight intensity={1} />
-        <spotLight
-          position={[-20, 50, 10]}
-          angle={0.12}
-          penumbra={1}
-          intensity={1}
-          castShadow
-          shadow-mapSize={[1024, 1024]}
-        />
-
-        <Character isMobile={isMobile} />
-      </Suspense>
-
-      <Preload all />
-    </Canvas>
+      <Canvas
+        shadows
+        frameloop={isMobile ? "always" : "demand"} // always on mobile for stable rendering
+        gl={{ preserveDrawingBuffer: true, antialias: true }}
+        camera={{ position: [0, 1, 5], fov: isMobile ? 30 : 25 }}
+      >
+        <Suspense fallback={<Loader />}>
+          <OrbitControls
+            enableZoom={false}
+            maxPolarAngle={Math.PI / 2}
+            minPolarAngle={0}
+            autoRotate
+            autoRotateSpeed={2}
+          />
+          <hemisphereLight intensity={0.15} groundColor="black" />
+          <spotLight
+            position={[-20, 50, 10]}
+            angle={0.12}
+            penumbra={1}
+            intensity={isMobile ? 0.8 : 1}
+            castShadow
+            shadow-mapSize={[1024, 1024]}
+          />
+          <Character isMobile={isMobile} />
+        </Suspense>
+        <Preload all />
+      </Canvas>
+    </div>
   );
 };
 
