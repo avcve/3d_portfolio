@@ -7,12 +7,29 @@ const Character = ({ isMobile }) => {
   const model = useGLTF("/ace/model.gltf");
   const ref = useRef();
 
-  // Rotate character (safe on mobile)
+  // Rotate character safely
   useFrame((_, delta) => {
     if (ref.current) {
       ref.current.rotation.y += delta * (isMobile ? 0.3 : 0.5);
     }
   });
+
+  // Sanitize geometry to prevent NaN crashes
+  useEffect(() => {
+    const sanitizeGeometry = (obj) => {
+      obj.traverse((child) => {
+        if (child.isMesh && child.geometry?.attributes.position) {
+          const pos = child.geometry.attributes.position.array;
+          for (let i = 0; i < pos.length; i++) {
+            if (!isFinite(pos[i])) pos[i] = 0; // replace NaN / Infinity
+          }
+          child.geometry.computeBoundingSphere();
+        }
+      });
+    };
+
+    if (model.scene) sanitizeGeometry(model.scene);
+  }, [model]);
 
   return (
     <group
@@ -50,11 +67,12 @@ const CharacterCanvas = () => {
     <div
       style={{
         width: "100%",
-        height: "100vh",
+        height: "100vh", // full viewport height
         overflow: "hidden",
       }}
     >
       <Canvas
+        style={{ width: "100%", height: "100%" }} // prevents oversized canvas
         frameloop="demand"
         dpr={[1, isMobile ? 1.25 : 2]}
         shadows={!isMobile}
@@ -86,6 +104,7 @@ const CharacterCanvas = () => {
   );
 };
 
+// Preload GLTF model for faster loading
 useGLTF.preload("/ace/model.gltf");
 
 export default CharacterCanvas;
