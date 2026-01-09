@@ -1,42 +1,78 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Float, Decal, Preload, useTexture } from "@react-three/drei";
+import {
+  OrbitControls,
+  Float,
+  Decal,
+  Preload,
+  useTexture,
+} from "@react-three/drei";
 
-const Ball = ({ imgUrl }) => {
+const Ball = ({ imgUrl, isMobile }) => {
   const [decal] = useTexture([imgUrl]);
 
   return (
-    <Float speed={1.75} rotationIntensity={1} floatIntensity={2}>
-      <ambientLight intensity={0.25} />
-      <directionalLight position={[0, 0, 0.05]} />
-      <mesh castShadow receiveShadow scale={1.2}>
+    <Float
+      speed={isMobile ? 1 : 1.75}
+      rotationIntensity={isMobile ? 0.6 : 1}
+      floatIntensity={isMobile ? 1 : 2}
+    >
+      <mesh scale={isMobile ? 1.05 : 1.2}>
         <icosahedronGeometry args={[1, 1]} />
-        <meshStandardMaterial color="#fff8eb" polygonOffset polygonOffsetFactor={-5} flatShading />
-        <Decal position={[0, 0, 1]} rotation={[2 * Math.PI, 0, 6.25]}
+        <meshStandardMaterial
+          color="#fff8eb"
+          polygonOffset
+          polygonOffsetFactor={-5}
           flatShading
-          map={decal} />
+        />
+        <Decal
+          position={[0, 0, 1]}
+          rotation={[2 * Math.PI, 0, 6.25]}
+          map={decal}
+        />
       </mesh>
     </Float>
   );
 };
 
 const BallCanvas = ({ icon }) => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 500px)");
+    setIsMobile(mq.matches);
+    const handler = (e) => setIsMobile(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+
   return (
-    <>
-      <Canvas
-        frameloop="demand"
-        gl={{ preserveDrawingBuffer: true }}
-        camera={{ position: [0, 0, 5], fov: 50 }}
-      >
-        <Suspense fallback={null}>
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[5, 5, 5]} intensity={1} />
-          <OrbitControls enableZoom={false} />
-          <Ball imgUrl={icon} />
-        </Suspense>
-        <Preload all />
-      </Canvas>
-    </>
+    <Canvas
+      frameloop="demand"
+      dpr={[1, isMobile ? 1.25 : 2]}
+      camera={{ position: [0, 0, 5], fov: isMobile ? 45 : 50 }}
+      gl={{
+        antialias: true,
+        powerPreference: "high-performance",
+      }}
+    >
+      <Suspense fallback={null}>
+        {/* Minimal lighting (mobile safe) */}
+        <ambientLight intensity={0.6} />
+        <directionalLight position={[5, 5, 5]} intensity={0.8} />
+
+        <OrbitControls
+          enableZoom={false}
+          enablePan={false}
+          autoRotate
+          autoRotateSpeed={isMobile ? 0.6 : 1}
+        />
+
+        <Ball imgUrl={icon} isMobile={isMobile} />
+      </Suspense>
+
+      <Preload all />
+    </Canvas>
   );
 };
 
