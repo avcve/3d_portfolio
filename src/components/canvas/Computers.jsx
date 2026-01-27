@@ -27,7 +27,7 @@ const Character = ({ isMobile }) => {
     <group
       ref={group}
       scale={isMobile ? 1.1 : 1.5}
-      position={isMobile ? [0, -1.8, 0] : [0, -2.5, 0]}
+      position={isMobile ? [0, 0, 0] : [0, -2.5, 0]}
     >
       <primitive object={scene} />
 
