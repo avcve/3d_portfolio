@@ -1,30 +1,38 @@
 import { Suspense, useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
+import { OrbitControls, Preload, useGLTF, useAnimations } from "@react-three/drei";
 import Loader from "../Loader";
 
-const Character = ({ isMobile }) => {
-  const model = useGLTF("/ace/model.gltf");
-  const ref = useRef();
 
-  // Rotate character (safe on mobile)
+const Character = ({ isMobile }) => {
+  const group = useRef();
+  const { scene, animations } = useGLTF("/ace/Avcve.glb"); // Animated GLB
+  const { actions } = useAnimations(animations, group);
+
+  // Rotate character (optional, works with animation)
   useFrame((_, delta) => {
-    if (ref.current) {
-      ref.current.rotation.y += delta * (isMobile ? 0.3 : 0.5);
+    if (group.current) {
+      group.current.rotation.y += delta * (isMobile ? 0.3 : 0.5);
     }
   });
 
+  // Play first animation automatically
+  useEffect(() => {
+    if (actions && animations.length > 0) {
+      actions[animations[0].name].play();
+    }
+  }, [actions, animations]);
+
   return (
     <group
-      ref={ref}
+      ref={group}
       scale={isMobile ? 1.1 : 1.5}
       position={isMobile ? [0, -1.8, 0] : [0, -2.5, 0]}
     >
-      <primitive object={model.scene} />
+      <primitive object={scene} />
 
-      {/* Minimal lighting for mobile */}
+      {/* Lighting */}
       <ambientLight intensity={0.6} />
-
       {!isMobile && (
         <>
           <pointLight intensity={5} position={[0, 3, 0]} />
@@ -55,7 +63,6 @@ const CharacterCanvas = () => {
       }}
     >
       <Canvas
-        frameloop="demand"
         dpr={[1, isMobile ? 1.25 : 2]}
         shadows={!isMobile}
         camera={{
@@ -82,10 +89,16 @@ const CharacterCanvas = () => {
 
         <Preload all />
       </Canvas>
+
+      {/* Example of displaying imported images safely */}
+      <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+
+      </div>
     </div>
   );
 };
 
-useGLTF.preload("/ace/model.gltf");
+// Preload the GLB
+useGLTF.preload("/ace/avatar.glb");
 
 export default CharacterCanvas;
