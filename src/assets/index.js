@@ -24,6 +24,7 @@ import slaty from "./company/slaty.png";
 import orochi from "./company/orochi.png";
 import syec from "./company/syec.jpg";
 import coderigi from "./company/coderigi.png";
+import woo from "./company/woo.png";
 
 
 import carrent from "./carrent.png";
@@ -34,6 +35,7 @@ import darkpinno from "./darkpinno.png";
 import da_vid from "./da_vid.jpg";
 import syecw from "./syecw.png";
 import papersagebot from "./papersagebot.jpg";
+
 
 
 export {
@@ -69,4 +71,5 @@ export {
   tehilla,
   da_vid,
   papersagebot,
+  woo,
 };

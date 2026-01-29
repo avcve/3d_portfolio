@@ -25,6 +25,7 @@ import {
     python,
     solidity,
     papersagebot,
+    woo,
 } from "../assets";
 
 
@@ -154,7 +155,7 @@ const experiences = [
         company_name: "Southern Yale Educational Consultancy (SYEC)",
         icon: syec, // add syec logo to /assets/company
         iconBg: "#1E2A38",
-        date: "2023 - Present",
+        date: "2025 - Present",
         points: [
             "Created educational content and managed community engagement to promote SYEC programs and services.",
             "Handled administrative tasks and supported the consultancy in coordinating programs and student onboarding.",
@@ -169,7 +170,7 @@ const experiences = [
         company_name: "Coderigi",
         icon: coderigi, // add coderigi logo to /assets/company
         iconBg: "#0A1F44",
-        date: "2024",
+        date: "2025 - Present",
         points: [
             "Audited a web application for security vulnerabilities and successfully identified a critical flaw, improving overall system security.",
             "Assisted the development team in implementing fixes and best security practices for web applications.",
@@ -177,7 +178,22 @@ const experiences = [
             "Gained hands-on experience with vulnerability assessment tools, reporting, and mitigation strategies.",
             "Collaborated with cross-functional teams to raise awareness of secure coding practices and Web3 security standards."
         ],
+    },
+    {
+        title: "WOO Network Ambassador (WOO FORCE)",
+        company_name: "WOO Network",
+        icon: woo, // add woo logo to /assets/company
+        iconBg: "#1E1E2F",
+        date: "2025 - Present",
+        points: [
+            "Actively contributed to the growth of the WOO ecosystem as part of the WOO Force ambassador and contributor program.",
+            "Created and shared educational content to increase awareness and adoption of WOO Network products and initiatives.",
+            "Engaged with community members across social platforms, providing support, insights, and onboarding assistance.",
+            "Collaborated with other contributors to organize discussions, campaigns, and feedback sessions for ecosystem improvement.",
+            "Provided user feedback and market insights to help improve community experience and ecosystem engagement."
+        ],
     }
+
 ];
 
 const testimonials = [
