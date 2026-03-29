@@ -26,8 +26,8 @@ const Character = ({ isMobile }) => {
   return (
     <group
       ref={group}
-      scale={isMobile ? 1.1 : 1.5}
-      position={isMobile ? [0, 0, 0] : [0, -2.5, 0]}
+      scale={isMobile ? 0.8 : 1.5}
+      position={isMobile ? [0, -3.2, 0] : [0, -2.5, 0]}
     >
       <primitive object={scene} />
 
@@ -66,8 +66,8 @@ const CharacterCanvas = () => {
         dpr={[1, isMobile ? 1 : 2]}
         shadows={!isMobile}
         camera={{
-          position: isMobile ? [0, 1, 4.5] : [0, 1, 5],
-          fov: isMobile ? 30 : 25,
+          position: isMobile ? [0, 1.5, 6] : [0, 1, 5],
+          fov: isMobile ? 40 : 25,
         }}
         gl={{
           antialias: true,

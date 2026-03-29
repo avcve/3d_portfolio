@@ -4,7 +4,7 @@ import ComputersCanvas from './canvas/Computers'; // default import
 
 const Hero = () => {
   return (
-    <section className="relative w-full" style={{ height: '700px' }}>
+    <section className="relative w-full flex flex-col justify-between" style={{ height: '900px', minHeight: '100vh' }}>
 
       {/* Left indicator + text */}
       <div className={`${styles.paddingX} absolute inset-0 top-[120px] max-w-7xl mx-auto flex flex-row items-start gap-5`}>
@@ -24,8 +24,8 @@ const Hero = () => {
       </div>
 
       {/* 3D Canvas pushed down */}
-      <div className="relative w-full h-screen">
-        <div className="w-full h-full transform translate-y-24 md:translate-y-32">
+      <div className="relative w-full h-[600px] mt-auto pb-20 md:pb-0 md:h-screen md:absolute md:inset-0">
+        <div className="w-full h-full transform translate-y-32 md:translate-y-32">
           <ComputersCanvas />
         </div>
       </div>
