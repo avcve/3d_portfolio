@@ -63,7 +63,7 @@ const CharacterCanvas = () => {
       }}
     >
       <Canvas
-        dpr={[1, isMobile ? 1.25 : 2]}
+        dpr={[1, isMobile ? 1 : 2]}
         shadows={!isMobile}
         camera={{
           position: isMobile ? [0, 1, 4.5] : [0, 1, 5],
@@ -72,6 +72,7 @@ const CharacterCanvas = () => {
         gl={{
           antialias: true,
           powerPreference: "high-performance",
+          preserveDrawingBuffer: true,
         }}
       >
         <Suspense fallback={<Loader />}>
@@ -97,8 +98,5 @@ const CharacterCanvas = () => {
     </div>
   );
 };
-
-// Preload the GLB
-useGLTF.preload("/ace/avatar.glb");
 
 export default CharacterCanvas;
