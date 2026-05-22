@@ -4,38 +4,40 @@ import ComputersCanvas from './canvas/Computers'; // default import
 
 const Hero = () => {
   return (
-    <section className="relative w-full flex flex-col justify-between" style={{ height: '900px', minHeight: '100vh' }}>
+    <section className="relative w-full h-screen mx-auto overflow-hidden">
+      
+      {/* Responsive two-column wrapper */}
+      <div className={`${styles.paddingX} max-w-7xl mx-auto w-full h-full flex md:flex-row flex-col justify-between items-center gap-5 relative z-10`}>
+        
+        {/* Left Column: Text & Indicator */}
+        <div className="flex flex-row items-start gap-5 w-full md:w-1/2 pt-[120px] md:pt-0">
+          <div className="flex flex-col justify-center items-center mt-5">
+            <div className="w-5 h-5 rounded-full bg-[#915eff]" />
+            <div className="w-1 sm:h-48 h-32 bg-gradient-to-b from-[#915eff] via-purple-500 to-transparent" />
+          </div>
 
-      {/* Left indicator + text */}
-      <div className={`${styles.paddingX} absolute inset-0 top-[120px] max-w-7xl mx-auto flex flex-row items-start gap-5`}>
-        <div className="flex flex-col justify-center items-center mt-5">
-          <div className="w-5 h-5 rounded-full bg-[#915eff]" />
-          <div className="w-1 sm:h-80 h-40 bg-gradient-to-b from-[#915eff] via-purple-500 to-transparent" />
+          <div>
+            <h1 className={`${styles.heroHeadText} text-white`}>
+              Hi, I'm <span className="text-[#915eff]">Avcve</span>
+            </h1>
+            <p className={`${styles.heroSubText} mt-2 text-gray-200`}>
+              I am your <span className="text-[#915eff]">Ace Card</span> with a keen interest in You, your projects and enterprises
+            </p>
+          </div>
         </div>
 
-        <div>
-          <h1 className={`${styles.heroHeadText} text-white`}>
-            Hi, I'm <span className="text-[#915eff]">Avcve</span>
-          </h1>
-          <p className={`${styles.heroSubText} mt-2 text-gray-200`}>
-            I am your <span className="text-[#915eff]">Ace Card</span> with a keen interest in You, your projects and enterprises
-          </p>
-        </div>
-      </div>
-
-      {/* 3D Canvas pushed down */}
-      <div className="relative w-full h-[600px] mt-auto pb-20 md:pb-0 md:h-screen md:absolute md:inset-0">
-        <div className="w-full h-full transform translate-y-32 md:translate-y-32">
+        {/* Right Column: 3D Canvas */}
+        <div className="w-full md:w-1/2 h-[350px] md:h-[80%] lg:h-[90%] flex justify-center items-center relative z-0">
           <ComputersCanvas />
         </div>
+
       </div>
 
       {/* Scroll indicator */}
       <div
-        className="absolute w-full flex justify-center items-center"
-        style={{ bottom: '-90px' }} // pushes the button 50px from the bottom of Hero
+        className="absolute bottom-5 xs:bottom-10 w-full flex justify-center items-center z-20 pointer-events-none"
       >
-        <a href="#about">
+        <a href="#about" className="pointer-events-auto">
           <div className="w-[35px] h-[64px] rounded-3xl border-4 border-gray-500 flex justify-center items-start p-2">
             <motion.div
               animate={{ y: [0, 24, 0] }}
@@ -45,8 +47,6 @@ const Hero = () => {
           </div>
         </a>
       </div>
-
-
 
     </section>
   );

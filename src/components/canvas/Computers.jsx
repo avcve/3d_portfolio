@@ -26,8 +26,8 @@ const Character = ({ isMobile }) => {
   return (
     <group
       ref={group}
-      scale={isMobile ? 0.8 : 1.5}
-      position={isMobile ? [0, -3.2, 0] : [0, -2.5, 0]}
+      scale={isMobile ? 1.7 : 1.5}
+      position={isMobile ? [0, -3.0, 0] : [0, -2.5, 0]}
     >
       <primitive object={scene} />
 
@@ -58,7 +58,7 @@ const CharacterCanvas = () => {
     <div
       style={{
         width: "100%",
-        height: "100vh",
+        height: "100%",
         overflow: "hidden",
       }}
     >
@@ -66,8 +66,8 @@ const CharacterCanvas = () => {
         dpr={[1, isMobile ? 1 : 2]}
         shadows={!isMobile}
         camera={{
-          position: isMobile ? [0, 1.5, 6] : [0, 1, 5],
-          fov: isMobile ? 40 : 25,
+          position: isMobile ? [0, 0.5, 7.5] : [0, 0.5, 5.5],
+          fov: isMobile ? 38 : 30,
         }}
         gl={{
           antialias: true,
@@ -83,6 +83,7 @@ const CharacterCanvas = () => {
             autoRotateSpeed={isMobile ? 1.2 : 2}
             maxPolarAngle={Math.PI / 2}
             minPolarAngle={0}
+            target={isMobile ? [0, -1.2, 0] : [0, -0.9, 0]}
           />
 
           <Character isMobile={isMobile} />
@@ -90,11 +91,6 @@ const CharacterCanvas = () => {
 
         <Preload all />
       </Canvas>
-
-      {/* Example of displaying imported images safely */}
-      <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-
-      </div>
     </div>
   );
 };
