@@ -27,7 +27,7 @@ const Hero = () => {
         </div>
 
         {/* Right Column: 3D Canvas */}
-        <div className="w-full md:w-1/2 h-[350px] md:h-[80%] lg:h-[90%] flex justify-center items-center relative z-0">
+        <div className="w-full md:w-1/2 flex-1 md:h-[80%] lg:h-[90%] flex justify-center items-center relative z-0">
           <ComputersCanvas />
         </div>
 
