@@ -26,8 +26,8 @@ const Character = ({ isMobile }) => {
   return (
     <group
       ref={group}
-      scale={isMobile ? 2.4 : 1.5}
-      position={isMobile ? [0, -2.6, 0] : [0, -2.5, 0]}
+      scale={isMobile ? 2.0 : 1.5}
+      position={isMobile ? [0, -3.0, 0] : [0, -2.5, 0]}
     >
       <primitive object={scene} />
 
@@ -66,8 +66,8 @@ const CharacterCanvas = () => {
         dpr={[1, isMobile ? 1 : 2]}
         shadows={!isMobile}
         camera={{
-          position: isMobile ? [0, 0.5, 5.0] : [0, 0.5, 5.5],
-          fov: isMobile ? 38 : 30,
+          position: isMobile ? [0, 0.5, 6.0] : [0, 0.5, 5.5],
+          fov: isMobile ? 40 : 30,
         }}
         gl={{
           antialias: true,
@@ -83,7 +83,7 @@ const CharacterCanvas = () => {
             autoRotateSpeed={isMobile ? 1.2 : 2}
             maxPolarAngle={Math.PI / 2}
             minPolarAngle={0}
-            target={isMobile ? [0, -1.0, 0] : [0, -0.9, 0]}
+            target={isMobile ? [0, -1.3, 0] : [0, -0.9, 0]}
           />
 
           <Character isMobile={isMobile} />
