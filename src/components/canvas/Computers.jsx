@@ -32,7 +32,8 @@ const Character = ({ isMobile }) => {
       <primitive object={scene} />
 
       {/* Lighting */}
-      <ambientLight intensity={0.6} />
+      <ambientLight intensity={1.6} />
+      <hemisphereLight intensity={0.6} groundColor="black" />
       {!isMobile && (
         <>
           <pointLight intensity={5} position={[0, 3, 0]} />
